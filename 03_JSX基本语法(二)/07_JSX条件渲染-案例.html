@@ -19,14 +19,27 @@
       constructor() {
         super()
         this.state = {
-          message: 'hello world'
+          message: 'hello world',
+          isShow: true
         }
       }
+      changShow () {
+        this.setState({
+          isShow: !this.state.isShow
+        })
+      }
       render () {
-        const { message } = this.state
+        const { message, isShow } = this.state
+        // let showElement = null
+        // if (isShow) {
+        //   showElement = <h2>{message}</h2>
+        // }
         return (
           <div >
-            <h2>{message}</h2>
+            <button onClick={() => this.changShow()}>切换</button>
+            {isShow && <h2>{message}</h2>}
+            {/* v-show的效果 */}
+            <h2 style={{ display: isShow ? 'block' : 'none' }}>{message}</h2>
           </div>
         )
       }
