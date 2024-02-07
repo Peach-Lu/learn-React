@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>react-app</title>
+  <script src="../lib/react.development.js"></script>
+  <script src="../lib/react-dom.development.js"></script>
+  <!-- Don't use this in production: -->
+  <!-- <script src="../lib/babel.min.js"></script> -->
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const container = document.getElementById('root')
+    const root = ReactDOM.createRoot(container)
+    class App extends React.Component {
+      constructor() {
+        super()
+        this.state = {
+          message: 'hello world'
+        }
+      }
+      render () {
+        const { message } = this.state
+        return React.createElement(
+          ("div", {
+            children: [/*#__PURE__*/React.createElement("div", {
+              className: "header"
+            }), /*#__PURE__*/React.createElement("div", {
+              className: "Content",
+              children: [/*#__PURE__*/React.createElement("div", {
+                children: "Banner"
+              }), /*#__PURE__*/React.createElement("ul", {
+                children: [/*#__PURE__*/React.createElement("li", {
+                  children: "\u5217\u8868\u6570\u636E1"
+                }), /*#__PURE__*/React.createElement("li", {
+                  children: "\u5217\u8868\u6570\u636E2"
+                }), /*#__PURE__*/React.createElement("li", {
+                  children: "\u5217\u8868\u6570\u636E3"
+                }), /*#__PURE__*/React.createElement("li", {
+                  children: "\u5217\u8868\u6570\u636E4"
+                }), /*#__PURE__*/React.createElement("li", {
+                  children: "\u5217\u8868\u6570\u636E5"
+                })]
+              })]
+            }), /*#__PURE__*/React.createElement("div", {
+              className: "footer"
+            })]
+          })
+        )
+      }
+    }
+    root.render(<App />)
+  </script>
+</body>
+
+</html>

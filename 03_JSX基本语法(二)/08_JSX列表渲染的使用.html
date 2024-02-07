@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>react-app</title>
+  <style>
+    .item {
+      border: 1px solid orange;
+      margin: 10px;
+      box-sizing: border-box;
+    }
+  </style>
+  <script src="../lib/react.development.js"></script>
+  <script src="../lib/react-dom.development.js"></script>
+  <!-- Don't use this in production: -->
+  <script src="../lib/babel.min.js"></script>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const container = document.getElementById('root')
+    const root = ReactDOM.createRoot(container)
+    class App extends React.Component {
+      constructor() {
+        super()
+        this.state = {
+          message: 'hello world',
+          students: [
+            { id: 111, name: 'why', score: 99 },
+            { id: 112, name: 'kobe', score: 98 },
+            { id: 113, name: 'james', score: 199 },
+            { id: 114, name: 'curry', score: 188 },
+          ]
+        }
+      }
+      render () {
+        const { message, students } = this.state
+        // 分数大于 100的学生进行展示
+        const filterStudents = students.filter(item => item.score > 100)
+        // 分数大于100 ,只展示两个人的信息
+        const sliceStudents = filterStudents.slice(0, 2)
+        return (
+          <div >
+            <h2>{message}</h2>
+            <div className='list'>
+              {
+                students.filter(item => item.score > 100).slice(0, 2).map((item, index) => {
+                  return (
+                    <div className='item' key={item.id}>
+                      <h2>学号:{item.id}</h2>
+                      <h3>姓名:{item.name}</h3>
+                      <h1>分数:{item.score}</h1>
+                    </div>
+                  )
+                })
+              }
+            </div>
+          </div>
+        )
+      }
+    }
+    root.render(<App />)
+  </script>
+</body>
+
+</html>
