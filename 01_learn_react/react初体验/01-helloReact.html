@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Hello World</title>
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <!-- Don't use this in production: -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+  <div id="root"></div>
+  <div id="app"></div>
+  <script type="text/babel">
+
+    function MyApp () {
+      const state = {
+        title: 'Hello world'
+      }
+      return <h1 onClick={changeTitle}>{state.title}</h1>;
+      function changeTitle () {
+        console.log(1111)
+        console.log()
+        state.title = 'hello Peach'
+        console.log(state)
+      }
+    }
+
+    const container = document.getElementById('root');
+    const app = document.getElementById('app');
+
+    const root = ReactDOM.createRoot(container);
+    const root2 = ReactDOM.createRoot(app);
+    root2.render(<MyApp />)
+    root.render(<MyApp />);
+
+  </script>
+</body>
+
+</html>

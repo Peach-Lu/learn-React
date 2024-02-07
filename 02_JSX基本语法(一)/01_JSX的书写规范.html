@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>react-app</title>
+  <script src="../lib/react.development.js"></script>
+  <script src="../lib/react-dom.development.js"></script>
+  <!-- Don't use this in production: -->
+  <script src="../lib/babel.min.js"></script>
+</head>
+
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const container = document.getElementById('root')
+    const root = ReactDOM.createRoot(container)
+    class App extends React.Component {
+      constructor() {
+        super()
+        this.state = {
+          message: 'hello world'
+        }
+      }
+      render () {
+        // 书写规范
+        // JSX结构只能有一个根元素
+        // JSX结构通常会包裹一个()将整个jsx当作一个整体,实现换行
+        // jsx可以是单标签 也可以是 单标签
+        const { message } = this.state
+        return (
+          <div >
+            <br />
+            <h2>{message}</h2>
+          </div>
+        )
+      }
+    }
+    root.render(<App />)
+  </script>
+</body>
+
+</html>

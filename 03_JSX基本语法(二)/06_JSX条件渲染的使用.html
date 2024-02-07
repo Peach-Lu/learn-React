@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>react-app</title>
+  <script src="../lib/react.development.js"></script>
+  <script src="../lib/react-dom.development.js"></script>
+  <!-- Don't use this in production: -->
+  <script src="../lib/babel.min.js"></script>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const container = document.getElementById('root')
+    const root = ReactDOM.createRoot(container)
+    class App extends React.Component {
+      constructor() {
+        super()
+        this.state = {
+          message: 'hello world',
+          isReady: true,
+          friend: null
+
+        }
+      }
+      render () {
+        // 1.条件判断方式一:使用if进行条件判断
+        const { isReady, friend } = this.state
+        let showElement = null
+        console.log('isReady', isReady)
+        setTimeout(() => {
+          this.setState({
+            friend: {
+              name: 'kobe',
+              desc: '凌晨四点的太阳'
+            }
+          })
+        }, 1000);
+        if (isReady) {
+          showElement = <h2>准备开始比赛吧</h2>
+        } else {
+          showElement = <h2>请提前做好准备</h2>
+        }
+        return (
+          <div>
+            {/*方式一 根据条件给变量赋值不同的内容 */}
+            <div>{showElement}</div>
+            {/*方式二 根据条件给变量赋值不同的内容 */}
+            <div>{isReady ? <button>开始战斗!</button> : <h3>赶紧准备</h3>}</div>
+            {/*方式三 && 逻辑与运算*/}
+            <div> {friend && <div>{friend.name + ' ' + friend.desc}</div>}</div>
+          </div>
+        )
+      }
+    }
+    root.render(<App />)
+  </script>
+</body>
+
+</html>

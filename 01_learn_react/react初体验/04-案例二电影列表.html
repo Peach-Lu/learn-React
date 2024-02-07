@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Hello World</title>
+  <script src="../js/react.development.js"></script>
+  <script src="../js/react-dom.development.js"></script>
+  <!-- Don't use this in production: -->
+  <script src="../js/babel.min.js"></script>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    class App extends React.Component {
+      constructor() {
+        super()
+        this.state = {
+          movies: ['星际穿越', '流浪地球', '独行月球', '火星救援']
+        }
+      }
+      render () {
+        return (
+          <div>
+            <ul>
+              {this.state.movies.map((item, i) => <li key={i}>{item}</li>)}
+            </ul>
+          </div>
+        )
+      }
+    }
+    root.render(<App message={'message'} />);
+
+  </script>
+</body>
+
+</html>

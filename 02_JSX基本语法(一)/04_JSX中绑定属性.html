@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>react-app</title>
+  <script src="../lib/react.development.js"></script>
+  <script src="../lib/react-dom.development.js"></script>
+  <!-- Don't use this in production: -->
+  <script src="../lib/babel.min.js"></script>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const container = document.getElementById('root')
+    const root = ReactDOM.createRoot(container)
+    class App extends React.Component {
+      constructor() {
+        super()
+        this.state = {
+          title: '哈哈哈哈',
+          imgUrl: 'https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png',
+          href: 'https://www.baidu.com',
+          isActive: true,
+          objStyle: {
+            color: 'red', fontSize: '30px'
+          }
+        }
+      }
+      render () {
+        const { title, imgUrl, href, isActive, objStyle } = this.state
+        // 需求isActive :true 
+        // 写法一
+        const className = `abc bca ${isActive ? 'active' : ''}`
+        // 写法二
+        const classList = ['abc', 'bca']
+        if (isActive) classList.push('active')
+        // 写法三 第三方库 classnames -> npm install classnames
+        return (
+          <div >
+            {/*1.绑定全局属性title属性 */}
+            <h2 title={title}>我是h2元素</h2>
+            <img src={imgUrl} alt="" />
+            <a href={href}>百度一下</a>
+            {/*2.绑定class属性*/}
+            <h2 className={`abc bca ${isActive ? 'active' : ''}`}>哈哈哈哈</h2>
+            <h2 className={classList.join(' ')}>哈哈哈哈</h2>
+            {/*3.绑定style属性 绑定对象类型*/}
+            <h2 style={{ color: 'red', fontSize: '30px' }}>呵呵呵呵</h2>
+            <h2 style={objStyle}>呵呵呵呵</h2>
+          </div>
+        )
+      }
+    }
+    root.render(<App />)
+  </script>
+</body>
+
+</html>

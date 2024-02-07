@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Hello World</title>
+  <script src="../js/react.development.js"></script>
+  <script src="../js/react-dom.development.js"></script>
+  <!-- Don't use this in production: -->
+  <script src="../js/babel.min.js"></script>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    let message = 'hello world'
+    function MyApp () {
+      return <h1 onClick={changeTitle}>{message}</h1>;
+      function changeTitle () {
+        message = 'hello peach'
+        rootRender()
+      }
+    }
+    const container = document.getElementById('root');
+    const root = ReactDOM.createRoot(container);
+    rootRender()
+    function rootRender () {
+      root.render(<MyApp />);
+    }
+  </script>
+</body>
+
+</html>

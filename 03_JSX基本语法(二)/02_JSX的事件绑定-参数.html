@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>react-app</title>
+  <script src="../lib/react.development.js"></script>
+  <script src="../lib/react-dom.development.js"></script>
+  <!-- Don't use this in production: -->
+  <script src="../lib/babel.min.js"></script>
+</head>
+
+<body>
+  <div id="root"></div>
+  <!-- <button class="btn">按钮</button> -->
+  <script type="text/babel">
+    function foo (name, age, height) {
+      console.log(name, age, height);
+    }
+    const bar = foo.bind('aaa', 'kobe', 30)
+    bar('event')
+    // const btn = document.querySelector('.btn')
+    // btn.onclick = function (e) {
+    //   console.log('event', e)
+    // }
+    const container = document.getElementById('root')
+    const root = ReactDOM.createRoot(container)
+    class App extends React.Component {
+      constructor() {
+        super()
+        this.state = {
+          message: 'hello world'
+        }
+      }
+      btnClick (e, name, age) {
+        console.log(name, age)
+        console.log(1, e, this)
+      }
+      render () {
+        const { message } = this.state
+        return (
+          <div>
+            {/* 1.event参数传递*/}
+            <button onClick={this.btnClick.bind(this)}>按钮一</button>
+            <button onClick={(e) => this.btnClick(e)}>按钮</button>
+            {/* 2.额外参数传递*/}
+            <button onClick={this.btnClick.bind(this, 'kebo', 30)}>按钮三</button>
+            {/* 3.箭头函数传递*/}
+            <button onClick={(e) => this.btnClick(e, 'kebo', 30)}>按钮四</button>
+
+          </div>
+        )
+      }
+    }
+    root.render(<App />)
+  </script>
+</body>
+
+</html>

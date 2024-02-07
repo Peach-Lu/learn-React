@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>react-app</title>
+  <script src="../lib/react.development.js"></script>
+  <script src="../lib/react-dom.development.js"></script>
+  <!-- Don't use this in production: -->
+  <script src="../lib/babel.min.js"></script>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const obj = {
+      foo: function () {
+        console.log('foo', this)
+      }
+    }
+    obj.foo()
+    const config = {
+      onClick: obj.foo
+    }
+    const click = config.onClick
+    click()
+    /**
+     * this的四种绑定规则
+     * 默认绑定 独立执行foo()
+     * 隐式绑定  被一个对象执行obj.foo()-》 obj
+     * 显式绑定: call/apply/bind foo.call('aaa') -> String('aaa')
+     * new绑定 new Foo() -> 创建一个新对象,并且赋值给 this
+    */
+    const container = document.getElementById('root')
+    const root = ReactDOM.createRoot(container)
+    class App extends React.Component {
+      // class fields
+      name = 'App'
+      constructor() {
+        super()
+        this.state = {
+          message: 'hello world',
+          counter: 0
+        }
+        this.btn1Click4 = this.btn1Click4.bind(this)
+      }
+      btn1Click () {
+        this.setState({
+          counter: this.state.counter + 1
+        })
+      }
+      btn1Click3 = () => {
+        console.log('btn3', this)
+        this.btn1Click()
+      }
+      btn1Click4 () {
+        this.btn1Click()
+      }
+      render () {
+        const { message } = this.state
+        return (
+          <div >
+            {/* 1.直接传入一个箭头函数 */}
+            <button onClick={() => this.btn1Click()}>按钮一</button>
+            {/*2.通过bind绑定*/}
+            <button onClick={this.btn1Click.bind(this)}>按钮二</button>
+            {/*3.通过es6 class fields*/}
+            <button onClick={this.btn1Click3}>按钮三</button>
+            {/*4.*/}
+            <h2>当前计数:{this.state.counter}</h2>
+          </div>
+        )
+      }
+    }
+    root.render(<App />)
+  </script>
+</body>
+
+</html

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>react-app</title>
+  <script src="../lib/react.development.js"></script>
+  <script src="../lib/react-dom.development.js"></script>
+  <!-- Don't use this in production: -->
+  <script src="../lib/babel.min.js"></script>
+  <style>
+    .active {
+      color: red;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const container = document.getElementById('root')
+    const root = ReactDOM.createRoot(container)
+    class App extends React.Component {
+      constructor() {
+        super()
+        this.state = {
+          movies: ['星际穿越', '盗梦空间', '大话西游', '流浪地球'],
+          currentIndex: 0
+        }
+      }
+      btnClick (index, e) {
+        console.log(index, e)
+        this.setState({
+          currentIndex: index
+        })
+      }
+      render () {
+        const { movies, currentIndex } = this.state
+        const liEls = movies.map((item, index) => {
+          return <li key={index} className={currentIndex === index ? 'active' : ''} onClick={(e) => this.btnClick(index, e)}>{item}</li>
+        })
+        return (
+          <div >
+            <ul>{liEls}</ul>
+          </div>
+        )
+      }
+    }
+    root.render(<App />)
+  </script>
+</body>
+
+</html>

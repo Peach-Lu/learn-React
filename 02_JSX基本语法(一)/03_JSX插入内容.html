@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>react-app</title>
+  <script src="../lib/react.development.js"></script>
+  <script src="../lib/react-dom.development.js"></script>
+  <!-- Don't use this in production: -->
+  <script src="../lib/babel.min.js"></script>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const container = document.getElementById('root')
+    const root = ReactDOM.createRoot(container)
+    class App extends React.Component {
+      constructor() {
+        super()
+        this.state = {
+          counter: 100,
+          message: 'hello world',
+          names: ['aaaa', 'cccc', 'eeee'],
+          aaa: undefined,
+          bbb: null,
+          ccc: true,
+          fried: {
+            name: 'kebi',
+            age: 17
+          },
+          movies: ['流浪地球', '星际穿越', '独行月球']
+        }
+      }
+      render () {
+        // 1.插入标识符
+        // 
+        const { message, names, aaa, bbb, ccc, counter } = this.state
+        const { fried } = this.state
+        const age = this.state.fried.age
+        const ageText = age >= 18 ? '成年' : '未成年人'
+        const liEle = this.state.movies.map((item, i) => <li key={i}>{item}</li>)
+        return (
+          <div >
+            {/* 1.number string ,array 直接显示出来*/}
+            <h2>{counter}</h2>
+            <h2>{message}</h2>
+            <h2>Array:{names}</h2>
+            {/* 2.undefined null boolean  直接不显示  需要转换成字符串*/}
+            <h2>{aaa + ''}</h2>
+            <h2>{String(bbb)}</h2>
+            <h2>{ccc.toString()}</h2>
+            {/*3.Object类型不能作为子元素进行显示*/}
+            <h2>{Object.keys(fried)[0]}</h2>
+
+            {/*4.可以插入对应的表达式*/}
+            <h2>{10 + 20}</h2>
+            <h2>{names[1] + names[2]}</h2>
+            {/*4.可以插入三元运算符*/}
+            <h2>ageText:{ageText}</h2>
+            <ul>{this.state.movies.map((item, i) => <li key={i}>{item}</li>)}</ul>
+            <ul>getMoviesEls{this.getMoviesEls()}</ul>
+          </div>
+        )
+      }
+      getMoviesEls () {
+        const liEls = this.state.movies.map((item, i) => <li key={i}>{item}</li>)
+        return liEls
+      }
+    }
+    root.render(<App />)
+  </script>
+</body>
+
+</html>
