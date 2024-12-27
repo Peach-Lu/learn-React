@@ -15,5 +15,9 @@ export default [
     rules: {
       'react/react-in-jsx-scope': 'off', // 
   },
+  extends: [
+    'eslint:recommended',
+    'plugin:prettier/recommended', // 将 Prettier 放在最后
+  ],
   },
 ];
