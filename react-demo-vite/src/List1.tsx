@@ -1,6 +1,8 @@
-import React,{FC, useState} from "react";
+import React,{FC, useState,} from "react";
+import {produce} from 'immer'
 import QuestionCard from './components/QuestionCard'
 const List1:FC = ()=>{
+    console.log('加载 ajax 网络请求')
     const [questionList,setQuestionList] = useState([
         {id:'q1', title:'问卷1', isPublished:false},
         {id:'q2', title:'问卷2', isPublished:true},
@@ -12,7 +14,11 @@ const List1:FC = ()=>{
     
     function add(){
         console.log('add')
-        setQuestionList(questionList.concat({id:'q'+(questionList.length + 1), title:'问卷'+(questionList.length +1), isPublished:false}))
+        // setQuestionList(questionList.concat({id:'q'+(questionList.length + 1), title:'问卷'+(questionList.length +1), isPublished:false}))
+        setQuestionList(produce(draft=>{
+            console.log('draft',draft)
+            draft.push({id:'q'+(questionList.length + 1), title:'问卷'+(questionList.length +1), isPublished:false})
+        }))
     }
     console.log('questionList',questionList)
     function edit(id:string){
@@ -23,26 +29,39 @@ const List1:FC = ()=>{
     }
     function deleteQuestion(id:string){
         console.log(id)
-        // const index = questionList.findIndex(item=>item.id === id)
+        const index = questionList.findIndex(item=>item.id === id)
         // questionList.splice(index,1)
         // setQuestionList([...questionList])
         // 不可变数据
     //    const newData =  questionList.filter(item=>item.id !== id) // 排除改id
     //    setQuestionList(newData)
     //    方式二
-        setQuestionList(questionList.filter(item=>item.id !== id))
+        // setQuestionList(questionList.filter(item=>item.id !== id))
+        // immer
+        setQuestionList(produce(draft=>{
+        draft.splice(index,1)
+        }))
     }
     function publishQuestion(id:string){
         console.log('发布',id)
         // const index = questionList.findIndex(item=>item.id === id)
         // questionList[index].isPublished = true
         // setQuestionList([...questionList])
-        setQuestionList(questionList.map(item=>{
-            if(item.id === id){
-                return {...item,isPublished:!item.isPublished}
+
+        // setQuestionList(questionList.map(item=>{
+        //     if(item.id === id){
+        //         return {...item,isPublished:!item.isPublished}
+        //     }
+        //     return item
+        // })) 
+
+        setQuestionList(produce(draft=>{
+            const index = draft.findIndex(item=>item.id === id)
+            if(index >= 0){
+                console.log('index',index)
+                draft[index].isPublished = !draft[index].isPublished
             }
-            return item
-        })) 
+        }))
     }
     return(
         <>

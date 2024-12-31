@@ -15,11 +15,10 @@ type PropsType = {
     
 }
 const QuestionCard: FC<PropsType> = (props) => {
-  console.log('props', props);
+//   console.log('props', props);
   const { id, title, isPublished,deleteQuestion,publishQuestion } = props;
   const edit = (id:string)=>{
-    console.log('编辑',id)
-   
+    // console.log('编辑',id)
   }
   function del(id:string){
     deleteQuestion && deleteQuestion(id)
