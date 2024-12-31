@@ -1,4 +1,4 @@
-import React,{FC, useState,} from "react";
+import React,{FC, useState, useEffect} from "react";
 import {produce} from 'immer'
 import QuestionCard from './components/QuestionCard'
 const List1:FC = ()=>{
