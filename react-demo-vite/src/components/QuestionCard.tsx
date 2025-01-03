@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC ,useEffect } from 'react';
 import './QuestionCard.css'
 // ts类型
 // interface QuestionCardProps {
@@ -24,6 +24,12 @@ const QuestionCard: FC<PropsType> = (props) => {
     deleteQuestion && deleteQuestion(id)
     // const index = questionList.findIndex(item=>item.id === id)
   }
+  useEffect(()=>{
+    // console.log('question mounted' + id)
+    // return ()=>{
+    //     console.log('question销毁' + id)
+    // }
+  },[])
   function publish(id:string){
     publishQuestion && publishQuestion(id)
   }

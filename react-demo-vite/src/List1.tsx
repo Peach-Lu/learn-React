@@ -1,8 +1,15 @@
-import React,{FC, useState, useEffect} from "react";
+import React,{FC, useState, useEffect,useRef} from "react";
 import {produce} from 'immer'
 import QuestionCard from './components/QuestionCard'
 const List1:FC = ()=>{
-    console.log('加载 ajax 网络请求')
+    useEffect(()=>{
+        console.log('useEffect')
+        console.log('加载 ajax 网络请求')
+        return ()=>{
+            console.log('销毁')
+        }
+    },[])
+    const [count,setCount] = useState(0)
     const [questionList,setQuestionList] = useState([
         {id:'q1', title:'问卷1', isPublished:false},
         {id:'q2', title:'问卷2', isPublished:true},
@@ -12,6 +19,13 @@ const List1:FC = ()=>{
         {id:'q6', title:'问卷6', isPublished:true},
     ])
     
+    // useEffect(()=>{
+    //     console.log('useEffect22222222222222222222222222222222')
+    //     return ()=>{
+    //         console.log('销毁2')
+    //     }
+    // },[questionList,count])
+    
     function add(){
         console.log('add')
         // setQuestionList(questionList.concat({id:'q'+(questionList.length + 1), title:'问卷'+(questionList.length +1), isPublished:false}))
@@ -20,7 +34,6 @@ const List1:FC = ()=>{
             draft.push({id:'q'+(questionList.length + 1), title:'问卷'+(questionList.length +1), isPublished:false})
         }))
     }
-    console.log('questionList',questionList)
     function edit(id:string){
         console.log('编辑',id)
         const index = questionList.findIndex(item=>item.id === id)
@@ -63,11 +76,16 @@ const List1:FC = ()=>{
             }
         }))
     }
+    function addCount(){
+        console.log('addCount')
+        setCount(count+1)
+    }
     return(
         <>
          <h1>问卷列表页</h1>
          <button onClick={()=>console.log('questionList',questionList)}>按钮</button>
         <button onClick={add}>新增问卷</button>
+        <button onClick={addCount}>{count}</button>
         <div>
             {questionList.map(item=>{
                 const {id,title,isPublished} = item
