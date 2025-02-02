@@ -1,6 +1,8 @@
 import React, { FC, useEffect } from 'react';
 import classNames from 'classnames';
-import './QuestionCard.css';
+// import './QuestionCard.css';
+import styles from './QuestionCard.module.scss';
+// import './QuestionCard.modules.scss';
 // ts类型
 // interface QuestionCardProps {
 //     id: string;
@@ -34,10 +36,12 @@ const QuestionCard: FC<PropsType> = (props) => {
     publishQuestion && publishQuestion(id);
   }
 
-  let itemClassName = 'list_item';
-  itemClassName = classNames('list_item', {
-    'list-item-published': isPublished,
-  })
+  const listItemClass = styles['list_item'];
+  const publishedClass = styles['list-item-published'];
+  const itemClassName = classNames({
+    [listItemClass]: true,
+    [publishedClass]: isPublished,
+  });
   console.log('itemClassName', itemClassName);
 
   return (
@@ -45,7 +49,7 @@ const QuestionCard: FC<PropsType> = (props) => {
       <strong> {title}</strong>
       {/* 条件判断 */}
       {isPublished ? (
-        <span style={{ color: 'green' }}> 已发布 </span>
+        <span className={styles['list-item-published']}> 已发布 </span>
       ) : (
         <span> 未发布 </span>
       )}

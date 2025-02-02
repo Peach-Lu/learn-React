@@ -5,6 +5,7 @@ import ImmerDemo from './immerDemo';
 import UseRefDemo from './UseRefDemo';
 // import UseMemoDemo from './useMemoDemo';
 import UseCallbackDemo from './useCallbackDemo';
+import StyledComponentDemo from './StyledComponentDemo';
 import useTitle from './hook/useTitle';
 import useMouse from './hook/useMouse';
 import useGetInfo,{getInfo} from './hook/useGetInfo';
@@ -27,7 +28,8 @@ function App() {
     </p>
     <p>App page</p>
     <p>{loading ? '加载中。。。。' : data}</p>
-    <List1></List1> 
+    <StyledComponentDemo></StyledComponentDemo>
+    {/* <List1></List1>  */}
     {/* <UseCallbackDemo></UseCallbackDemo> */}
     {/* <UseMemoDemo></UseMemoDemo> */}
     {/* <UseRefDemo></UseRefDemo> */}
