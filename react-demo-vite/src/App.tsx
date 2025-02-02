@@ -27,11 +27,12 @@ function App() {
     </p>
     <p>App page</p>
     <p>{loading ? '加载中。。。。' : data}</p>
+    <List1></List1> 
     {/* <UseCallbackDemo></UseCallbackDemo> */}
     {/* <UseMemoDemo></UseMemoDemo> */}
     {/* <UseRefDemo></UseRefDemo> */}
       {/* <ImmerDemo></ImmerDemo>
-      <List1></List1> */}
+      */}
       {/* <StateDemo></StateDemo>  */}
     </>
   );
