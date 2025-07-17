@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import List1 from './List1';
+import List2 from './List2';
 import StateDemo from './StateDemo2';
 import ImmerDemo from './immerDemo';
 import UseRefDemo from './UseRefDemo';
@@ -26,10 +27,11 @@ function App() {
     <p>
     {JSON.stringify({ data, error, loading })}
     </p>
-    <p>App page</p>
-    <p>{loading ? '加载中。。。。' : data}</p>
-    <StyledComponentDemo></StyledComponentDemo>
+    {/* <p>App page</p> */}
+    {/* <p>{loading ? '加载中。。。。' : data}</p> */}
+    {/* <StyledComponentDemo></StyledComponentDemo> */}
     {/* <List1></List1>  */}
+    <List2></List2>
     {/* <UseCallbackDemo></UseCallbackDemo> */}
     {/* <UseMemoDemo></UseMemoDemo> */}
     {/* <UseRefDemo></UseRefDemo> */}
