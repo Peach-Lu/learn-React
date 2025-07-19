@@ -1,6 +1,5 @@
-import React, { FC, useState } from "react";
-import QuestionCard from "../components/QuestionCard";
-import styles from "./List.module.scss";
+import React, { FC } from "react";
+import QuestionCard from "../../components/QuestionCard";
 const rawQuestionList = [
   {
     _id: "q1",
@@ -52,7 +51,8 @@ const rawQuestionList = [
   },
 ];
 const List: FC = () => {
-  const [questionList, setQuestionList] = useState(rawQuestionList);
+  console.log('rawQuestionList',rawQuestionList)
+  // const [questionList, setQuestionList] = useState(rawQuestionList);
   return (
     <>
       {/* <div className={styles["header"]}>
@@ -61,21 +61,25 @@ const List: FC = () => {
         </div>
         <div className={styles.right}>搜索</div>
       </div> */}
-      <div className="flex">
-        <div className="flex-1 mb-10">
+      <div className="bg-[#eef0f4] pt-[10px] pb-[10px]">
+      <div className="flex justify-center">
+        <div className="flex-1">
           <h3>我的问卷</h3>
         </div>
-        <div className="flex-1 text-right">搜索</div>
+        <div className="flex-1 text-right">
+          <input type="text" className="bg-white" />
+          搜索</div>
       </div>
       <div className="mb-10">
         {
-          questionList.map((item) => {
+          rawQuestionList.map((item) => {
             const { id } = item
-            return <QuestionCard key={id} {...item} />
+            return <QuestionCard id={""} key={id} {...item} />
           })
         }
       </div>
       <div className="mb-10 text-center">footer</div>
+      </div>
     </>
   );
 };
