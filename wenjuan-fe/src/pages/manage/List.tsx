@@ -1,6 +1,7 @@
 import React, { FC,useState } from "react";
 import QuestionCard from "../../components/QuestionCard";
 import {useSearchParams,useParams} from 'react-router-dom'
+import ListSearch from "../../components/ListSearch";
 import { useTitle} from 'ahooks'
 import {Empty} from 'antd'
 const rawQuestionList = [
@@ -81,8 +82,8 @@ const List: FC = () => {
           <h3>我的问卷</h3>
         </div>
         <div className="flex-1 text-right">
-          <input type="text" className="bg-white" />
-          搜索</div>
+          <ListSearch></ListSearch>
+          </div>
       </div>
       <div className="mb-10">
         {

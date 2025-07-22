@@ -1,8 +1,10 @@
-import React, { FC } from "react"
+import React, { FC, useState } from "react"
 import QuestionCard from "../../components/QuestionCard"
 import { useSearchParams, useParams } from "react-router-dom"
 import { useTitle } from "ahooks"
-import { Empty, Table, Tag } from "antd"
+import { Empty, Table, Tag, Button, Space, Modal } from "antd"
+import { ExclamationCircleOutlined } from "@ant-design/icons"
+import type { TableColumnsType, TableProps } from "antd"
 const rawQuestionList = [
   {
     _id: "q1",
@@ -55,9 +57,7 @@ const rawQuestionList = [
 ].filter(item => item.isStar)
 // rawQuestionList = []
 
-
-
-const columns = [
+const columns: TableColumnsType = [
   {
     title: "标题",
     dataIndex: "title",
@@ -69,9 +69,9 @@ const columns = [
     dataIndex: "isPublished",
     key: "isPublished",
     align: "center",
-    render: (text) => {
-      return text ? <Tag color="green">已发布</Tag> : <Tag>已发布</Tag> 
-    },
+    render: text => {
+      return text ? <Tag color="green">已发布</Tag> : <Tag>已发布</Tag>
+    }
   },
   {
     title: "答卷数量",
@@ -80,18 +80,74 @@ const columns = [
     key: "answerCount"
   }
 ]
+
 const Start: FC = () => {
   console.log("rawQuestionList", rawQuestionList)
-  // const [searchParams, setSearchParams] = useSearchParams();
   const params = useParams()
+  const [selectIds, setSelectIds] = useState<string[]>([])
+  const [modal, contextHolder] = Modal.useModal()
   useTitle("回收站")
-  // console.log('keyWord', searchParams);
   console.log("params", params)
-  // const [questionList, setQuestionList] = useState(rawQuestionList);
-  const deleteQuestion = (id: string) => {
-    console.log("deleteQuestion", id)
+  const del = () => {
+    console.log("selectIds", selectIds)
+    // console.log("deleteQuestion", id)
+    modal.confirm({
+      title: "确定删除吗?",
+      icon: <ExclamationCircleOutlined />,
+      content: "删除后无法恢复",
+      onOk: () => alert(`删除 ${JSON.stringify(selectIds)}`)
+    })
     // setQuestionList(questionList.filter((item) => item.id !== id));
   }
+
+  const rowSelection: TableProps<DataType>["rowSelection"] = {
+    onChange: async (selectedRowKeys: React.Key[]) => {
+      console.log(`selectedRowKeys: ${selectedRowKeys}`)
+      setSelectIds(selectedRowKeys as string[])
+      setTimeout(() => {
+        console.log("selectIds: ", selectIds) //为什么 =这个打印的是上一次的值，不是最新的
+      }, 0)
+    },
+    getCheckboxProps: (record: DataType) => ({
+      disabled: record.name === "Disabled User", // Column configuration not to be checked
+      name: record.name
+    })
+  }
+  function deleteId() {
+    // setSelectIds(selectIds.filter(item => item !== id))
+  }
+  const TableElem = (
+    <>
+      <div className="mb-[10px]">
+        <Space>
+          <Button
+            disabled={selectIds.length === 0}
+            onClick={() => {
+              console.log("selectIds", selectIds)
+              setSelectIds([])
+            }}
+          >
+            恢复
+          </Button>
+          <Button
+            danger
+            disabled={selectIds.length === 0}
+            onClick={() => del()}
+          >
+            删除
+          </Button>
+          {contextHolder}
+        </Space>
+      </div>
+      <Table
+        rowSelection={{ type: "checkbox", ...rowSelection }}
+        rowKey="_id"
+        pagination={{ position: ["bottomRight"] }}
+        dataSource={rawQuestionList}
+        columns={columns}
+      />
+    </>
+  )
   return (
     <>
       {/* <div className={styles["header"]}>
@@ -109,10 +165,13 @@ const Start: FC = () => {
             <div className="flex-1 text-right">
               <input type="text" className="bg-white" />
               搜索
+              {JSON.stringify(selectIds)}
             </div>
           </div>
           <div className="mb-10">
-            <Table  pagination={{ position: ['bottomRight'] }} dataSource={rawQuestionList} columns={columns} />;
+            {rawQuestionList.length === 0 && <Empty></Empty>}
+            {rawQuestionList.length > 0 && TableElem}
+
             {/* {
           rawQuestionList.length > 0 ? 
           rawQuestionList.map((item) => {
@@ -122,7 +181,7 @@ const Start: FC = () => {
           : <Empty></Empty>
         } */}
           </div>
-          <div className="mb-10 text-center">loadMore ... 上滑加载更多</div>
+          {/* <div className="mb-10 text-center">loadMore ... 上滑加载更多</div> */}
         </div>
       </div>
     </>
