@@ -1,7 +1,8 @@
 import React,{FC, useState} from 'react'
 import QuestionCard from '../components/QuestionCard'
 import { produce } from 'immer'
-
+import styles from './List.module.scss'
+console.log('styles',styles)
 const rawList = [
         {id:'q1', title:'问卷1', isPublished:false,isStart:false,answerCount:5,createAt:'3月11号'},
         {id:'q2', title:'问卷2', isPublished:true,isStart:false,answerCount:5,createAt:'3月12号'},
@@ -15,6 +16,14 @@ const List:FC = ()=>{
     return(
         <>
         <p>QuestionCard</p>
+        <div className={styles.header}>
+            <div className={styles.left}>
+                <h3>我的问卷</h3>
+            </div>
+            <div className={styles.right}>
+                (搜索)
+            </div>
+        </div>
         {
             list.map(item=>{
                 <QuestionCard  id={item.id} title={item.title} isPublished={item.isPublished}></QuestionCard>
