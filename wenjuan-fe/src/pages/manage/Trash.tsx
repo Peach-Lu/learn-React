@@ -1,5 +1,6 @@
 import React, { FC, useState } from "react"
 import QuestionCard from "../../components/QuestionCard"
+import ListSearch from "../../components/ListSearch"
 import { useSearchParams, useParams } from "react-router-dom"
 import { useTitle } from "ahooks"
 import { Empty, Table, Tag, Button, Space, Modal } from "antd"
@@ -163,9 +164,7 @@ const Start: FC = () => {
               <h3>回收站</h3>
             </div>
             <div className="flex-1 text-right">
-              <input type="text" className="bg-white" />
-              搜索
-              {JSON.stringify(selectIds)}
+                     <ListSearch></ListSearch>
             </div>
           </div>
           <div className="mb-10">

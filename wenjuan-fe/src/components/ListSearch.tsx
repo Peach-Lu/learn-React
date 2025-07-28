@@ -1,28 +1,33 @@
-import React, { FC } from "react"
-import type { ChangeEvent } from "react"
-import { useNavigate, useLocation } from "react-router"
-import { Input, Button } from "antd"
-import {LIST_SEARCH_PARAM_KEY} from "../constant"
+import React, { FC, useEffect } from "react";
+import type { ChangeEvent } from "react";
+import { useNavigate, useLocation, useSearchParams } from "react-router";
+import { Input, Button } from "antd";
+import { LIST_SEARCH_PARAM_KEY } from "../constant";
 const ListSearch: FC = () => {
-  const navigate = useNavigate()
-  const { pathname } = useLocation()
-  console.log("pathname", pathname)
-
-  const { Search } = Input
-  const [search, setSearch] = React.useState<string>("")
+  // 获取url参数 设置到input value
+  const [searchParams] = useSearchParams();
+  useEffect(() => {
+    console.log("searchParams", searchParams);
+  const curlvalue = searchParams.get(LIST_SEARCH_PARAM_KEY) || "";
+    console.log("curlvalue", curlvalue);
+  }, [searchParams]);
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+  console.log("pathname", pathname);
+  const { Search } = Input;
+  const [search, setSearch] = React.useState<string>("");
   function handleChange(e: ChangeEvent<HTMLInputElement>) {
-    setSearch(e.target.value)
-    console.log("search", search)
+    setSearch(e.target.value);
+    console.log("search", search);
   }
   function handleSearch(val: string) {
-    console.log("val", val)
-    console.log("pathname", pathname)
+    console.log("val", val);
+    console.log("pathname", pathname);
     // navigate(`${pathname}?keyWord=${val}`)
     navigate({
       pathname: pathname,
       search: `?${LIST_SEARCH_PARAM_KEY}=${val}`,
-    })
-
+    });
   }
   return (
     <>
@@ -37,6 +42,6 @@ const ListSearch: FC = () => {
         />
       </div>
     </>
-  )
-}
-export default ListSearch
+  );
+};
+export default ListSearch;
