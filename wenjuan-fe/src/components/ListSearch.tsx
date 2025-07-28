@@ -8,7 +8,7 @@ const ListSearch: FC = () => {
   const [searchParams] = useSearchParams();
   useEffect(() => {
     console.log("searchParams", searchParams);
-  const curlvalue = searchParams.get(LIST_SEARCH_PARAM_KEY) || "";
+    const curlvalue = searchParams.get(LIST_SEARCH_PARAM_KEY) || "";
     console.log("curlvalue", curlvalue);
   }, [searchParams]);
   const navigate = useNavigate();

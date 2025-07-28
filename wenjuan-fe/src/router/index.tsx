@@ -14,72 +14,76 @@ import Trash from "../pages/manage/Trash";
 import Start from "../pages/manage/Start";
 import Edit from "../pages/question/Edit";
 import Stat from "../pages/question/Stat";
-
+import Formik from "../components/formik";
 const router = createBrowserRouter([
+  {
+    path: "/formik",
+    element: <Formik />,
+  },
   {
     path: "/",
     element: <MainLayout />,
     children: [
       {
-        path:'/',
-        element :<Home />
+        path: "/",
+        element: <Home />,
       },
       {
-        path:'demo',
-        element :<Demo />
+        path: "demo",
+        element: <Demo />,
       },
       {
-        path:'login',
-        element: <Login />
+        path: "login",
+        element: <Login />,
       },
       {
-        path:'register',
-        element: <Register />
+        path: "register",
+        element: <Register />,
       },
       {
-        path: 'manage',
+        path: "manage",
         element: <MainManageLayout />,
         children: [
           {
-            path: 'start',
-            element: <Start />
+            path: "start",
+            element: <Start />,
           },
           {
-            path: 'list',
-            element: <List />
+            path: "list",
+            element: <List />,
           },
           {
-            path: 'trash',
-            element: <Trash />
+            path: "trash",
+            element: <Trash />,
           },
-       
-        ]
+        ],
       },
-      
+
       {
-        path:'*', 
-        element: <NotFound /> 
-      }
-    ]
-  }, 
+        path: "*",
+        element: <NotFound />,
+      },
+    ],
+  },
   {
-    path: 'question',
+    path: "question",
     element: <QuestionLayout />,
     children: [
       {
-        path: 'edit/:id',
-        element: <Edit />
+        path: "edit/:id",
+        element: <Edit />,
       },
       {
-        path: 'stat/:id',
-        element: <Stat />
-      }
-    ]
-  },])
+        path: "stat/:id",
+        element: <Stat />,
+      },
+    ],
+  },
+]);
 
-export default router
+export default router;
 
-export const LOGIN_PATHNAME = '/login';
-export const REGISTER_PATHNAME = '/register';
-export const HOME_PATHNAME = '/';
-export const MANAGE_PATHNAME = '/manage/list';
+export const LOGIN_PATHNAME = "/login";
+export const REGISTER_PATHNAME = "/register";
+export const HOME_PATHNAME = "/";
+export const MANAGE_PATHNAME = "/manage/list";
