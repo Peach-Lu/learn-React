@@ -1,31 +1,54 @@
-import React, { FC } from "react"
-import { Outlet, useNavigate, useLocation } from "react-router-dom"
-import styles from "./MainManage.module.scss"
-import { Button, Flex } from "antd"
+import React, { FC, useState, useEffect } from "react";
+import { Outlet, useNavigate, useLocation } from "react-router-dom";
+import styles from "./MainManage.module.scss";
+import { Button, Flex, message } from "antd";
+import { createQuestionService } from "@/request/question";
 import {
   StarOutlined,
   BarsOutlined,
   PlusOutlined,
-  DeleteOutlined
-} from "@ant-design/icons"
-
-
+  DeleteOutlined,
+} from "@ant-design/icons";
 
 const MainManageLayout: FC = ({ children }) => {
-  const navigate = useNavigate()
-  const { pathname } = useLocation()
-  console.log("location", location)
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const [loading, setLoading] = useState(false);
+  console.log("location", location);
+  const createQuestion = async () => {
+    const res = await createQuestionService();
+
+    console.log(res);
+  };
+  async function handleCreated() {
+    setLoading(true);
+    const data = await createQuestionService();
+    setLoading(false);
+
+    const { id } = data || {};
+    if (id) {
+      navigate(`/question/edit/${id}`);
+      message.success("创建问卷成功");
+    }
+    console.log(data);
+  }
   return (
     <>
       <div className={styles.container}>
         <div className={styles.left}>
           <p>MannageLayout left</p>
           <Flex gap="middle" vertical>
-            <Button icon={<PlusOutlined />} value="large" type="primary">
+            <Button
+              disabled={loading}
+              icon={<PlusOutlined />}
+              value="large"
+              type="primary"
+              onClick={handleCreated}
+            >
               创建问卷
             </Button>
-           <Button
-            style={{ marginTop: "10px" }}
+            <Button
+              style={{ marginTop: "10px" }}
               icon={<BarsOutlined />}
               value="large"
               type={pathname === "/manage/list" ? "primary" : "default"}
@@ -62,6 +85,6 @@ const MainManageLayout: FC = ({ children }) => {
     </div>
   </div> */}
     </>
-  )
-}
-export default MainManageLayout
+  );
+};
+export default MainManageLayout;
