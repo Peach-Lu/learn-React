@@ -2,6 +2,9 @@ import axios from "./http";
 import type { ResDataType } from "./http";
 type SearchOption = {
     keyword:string
+    isPublished: boolean
+    isStar: boolean
+    isDelete:boolean
     // pageNum
     // pageSize
     // isStar

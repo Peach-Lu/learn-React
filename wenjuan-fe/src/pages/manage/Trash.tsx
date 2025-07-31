@@ -6,57 +6,9 @@ import { useTitle } from "ahooks"
 import { Empty, Table, Tag, Button, Space, Modal } from "antd"
 import { ExclamationCircleOutlined } from "@ant-design/icons"
 import type { TableColumnsType, TableProps } from "antd"
-const rawQuestionList = [
-  {
-    _id: "q1",
-    title: "问卷1",
-    isPublished: false,
-    isStar: true,
-    answerCount: 5,
-    createAt: "2月2日 12:00"
-  },
-  {
-    _id: "q2",
-    title: "问卷2",
-    isPublished: true,
-    isStar: false,
-    answerCount: 6,
-    createAt: "2月2日 12:00"
-  },
-  {
-    _id: "q3",
-    title: "问卷3",
-    isPublished: true,
-    isStar: false,
-    answerCount: 7,
-    createAt: "2月3日 12:00"
-  },
-  {
-    _id: "q4",
-    title: "问卷4",
-    isPublished: false,
-    isStar: false,
-    answerCount: 8,
-    createAt: "2月8日 12:00"
-  },
-  {
-    _id: "q5",
-    title: "问卷5",
-    isPublished: false,
-    isStar: true,
-    answerCount: 9,
-    createAt: "2月9日 12:00"
-  },
-  {
-    _id: "q6",
-    title: "问卷6",
-    isPublished: true,
-    isStar: true,
-    answerCount: 2,
-    createAt: "2月2日 12:00"
-  }
-].filter(item => item.isStar)
-// rawQuestionList = []
+import useLoadQuestionListData from "@/hook/useLoadQuestionListData";
+
+
 
 const columns: TableColumnsType = [
   {
@@ -83,7 +35,13 @@ const columns: TableColumnsType = [
 ]
 
 const Start: FC = () => {
+  // rawQuestionList = []
+  const { loading, data, error } = useLoadQuestionListData({
+    isDelete: true,
+  });
+  const { list: rawQuestionList = [], total = 0 } = data || {};
   console.log("rawQuestionList", rawQuestionList)
+
   const params = useParams()
   const [selectIds, setSelectIds] = useState<string[]>([])
   const [modal, contextHolder] = Modal.useModal()

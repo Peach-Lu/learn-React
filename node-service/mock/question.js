@@ -36,11 +36,20 @@ module.exports = [
     // 获取问卷
     url: "/api/question",
     method: "get",
-    response: () => {
+
+    response: (res) => {
+        console.log("res", res.originalUrl);
+       const isStar  =  res.originalUrl.includes("isStar=true");
+       const isDelete  =  res.originalUrl.includes("isDelete=true");
+       const opt = {
+        isStar: isStar ? true : false,
+        isDelete: isDelete ? true : false,
+       }
+        // console.log("res", res);
       return {
         erron: 0,
         data: {
-          list:getQuestionList(), // 问卷列表
+          list:getQuestionList(opt), // 问卷列表
           total: 100, // 总数
           pageNum:0, // 当前页码
           pageSize:10, // 每页条数
