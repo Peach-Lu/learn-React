@@ -1,13 +1,27 @@
 import axios from "./http";
 import type { ResDataType } from "./http";
-
-export const getQuestionList = (id?: number | string) => {
+type SearchOption = {
+    keyword:string
+    // pageNum
+    // pageSize
+    // isStar
+}
+export const getQuestionList = (id?: SearchOption | string) => {
   return axios.get<ResDataType>(`/question/${id}`);
 };
                                                     // 返回的是promise类型 泛型 resdatatype
 export async function getQuestionService(id:string):Promise<ResDataType> {
     const url = `/api/question/${id}`
     const data = (await axios.get(url)) as ResDataType
+    return data
+}
+// 调用时可以只传部分字段，不需要全部都传。常用于接口参数、表单等场景
+// Partial 是 TypeScript 的内置工具类型，它将一个类型的所有属性变为可选的。
+// 例如，Partial<{ name: string; age: number }> 等价于 { name?: string; age?: number; }。
+// 这样可以让你在使用时只需要提供部分属性，而不是全部属性。
+export async function getQuestionServiceList(opt:Partial<SearchOption>):Promise<ResDataType> {
+    const url = `/api/question`
+    const data = (await axios.get(url,{params:opt})) as ResDataType
     return data
 }
  export async function createQuestionService():Promise<ResDataType>{

@@ -3,6 +3,7 @@ import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import styles from "./MainManage.module.scss";
 import { Button, Flex, message } from "antd";
 import { createQuestionService } from "@/request/question";
+import { useRequest } from "ahooks";
 import {
   StarOutlined,
   BarsOutlined,
@@ -13,25 +14,38 @@ import {
 const MainManageLayout: FC = ({ children }) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const [loading, setLoading] = useState(false);
+  //   const [loading, setLoading] = useState(false);
   console.log("location", location);
-  const createQuestion = async () => {
-    const res = await createQuestionService();
+  //   const createQuestion = async () => {
+  //     const res = await createQuestionService();
 
-    console.log(res);
-  };
-  async function handleCreated() {
-    setLoading(true);
-    const data = await createQuestionService();
-    setLoading(false);
+  //     console.log(res);
+  //   };
+  //   async function handleCreated() {
+  //     setLoading(true);
+  //     const data = await createQuestionService();
+  //     setLoading(false);
 
-    const { id } = data || {};
-    if (id) {
-      navigate(`/question/edit/${id}`);
+  //     const { id } = data || {};
+  //     if (id) {
+  //       navigate(`/question/edit/${id}`);
+  //       message.success("创建问卷成功");
+  //     }
+  //     console.log(data);
+  //   }
+  const {
+    loading,
+    error,
+    run: handleCreated,
+  } = useRequest(createQuestionService, {
+    manual: true,
+    onSuccess: (data: any,params:any) => {
+      const { id } = data;
+      console.log('params',params)
+    //   navigate(`/question/edit/${id}`);
       message.success("创建问卷成功");
-    }
-    console.log(data);
-  }
+    },
+  });
   return (
     <>
       <div className={styles.container}>
@@ -45,6 +59,7 @@ const MainManageLayout: FC = ({ children }) => {
               type="primary"
               onClick={handleCreated}
             >
+              {JSON.stringify(loading)}
               创建问卷
             </Button>
             <Button

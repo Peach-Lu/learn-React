@@ -17,12 +17,13 @@ const Edit: FC = () => {
 //     }
 //     fn();
 //   }, []);
-const { loading, questionData } = useLoadingQuestionData();
 
+
+const { loading, data } = useLoadingQuestionData();
   return (
     <>
       <p>Edit</p>
-      {loading ? <p>Loading...</p> : <p>{JSON.stringify(questionData)}</p>}
+      {loading ? <p>Loading...</p> : <p>{JSON.stringify(data)}</p>}
     </>
   );
 };
