@@ -37,22 +37,28 @@ module.exports = [
     url: "/api/question",
     method: "get",
 
-    response: (res) => {
-        console.log("res", res.originalUrl);
-       const isStar  =  res.originalUrl.includes("isStar=true");
-       const isDelete  =  res.originalUrl.includes("isDelete=true");
+    response: (ctx) => {
+        console.log("res", ctx.originalUrl);
+       const isStar  =  ctx.originalUrl.includes("isStar=true");
+       const isDelete  =  ctx.originalUrl.includes("isDelete=true");
+       const {query={}} = ctx;
+       console.log('query',query);
+       const page = parseInt(query.page) || 1;
+       const pageSize = parseInt(query.pageSize) || 10;
        const opt = {
+        page,
         isStar: isStar ? true : false,
         isDelete: isDelete ? true : false,
+        pageSize
        }
         // console.log("res", res);
       return {
         erron: 0,
         data: {
           list:getQuestionList(opt), // 问卷列表
-          total: 100, // 总数
-          pageNum:0, // 当前页码
-          pageSize:10, // 每页条数
+          total:100, // 总数
+          page, // 当前页码
+          pageSize, // 每页条数
         },
       };
     },

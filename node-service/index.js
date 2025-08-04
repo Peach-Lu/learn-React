@@ -7,7 +7,7 @@ async function getRes(fn,ctx) {
     setTimeout(() => {
         const res =  fn(ctx);
       resolve(res);
-    }, 1000);
+    }, 20);
   });
 }
 

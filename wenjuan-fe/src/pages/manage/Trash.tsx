@@ -7,7 +7,7 @@ import { Empty, Table, Tag, Button, Space, Modal } from "antd"
 import { ExclamationCircleOutlined } from "@ant-design/icons"
 import type { TableColumnsType, TableProps } from "antd"
 import useLoadQuestionListData from "@/hook/useLoadQuestionListData";
-
+import ListPage from "../../components/ListPage"
 
 
 const columns: TableColumnsType = [
@@ -138,6 +138,7 @@ const Start: FC = () => {
           : <Empty></Empty>
         } */}
           </div>
+          <ListPage total={total}></ListPage>
           {/* <div className="mb-10 text-center">loadMore ... 上滑加载更多</div> */}
         </div>
       </div>

@@ -1,61 +1,13 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import QuestionCard from "../../components/QuestionCard";
 import { useSearchParams, useParams } from "react-router-dom";
 import ListSearch from "../../components/ListSearch";
-import { useTitle, useRequest } from "ahooks";
+import { useTitle, useRequest, useDebounceFn } from "ahooks";
 import { getQuestionServiceList } from "@/request/question";
 import useLoadQuestionListData from "@/hook/useLoadQuestionListData";
 import { Empty } from "antd";
-const rawQuestionList = [
-  {
-    _id: "q1",
-    title: "问卷1",
-    isPublished: false,
-    isStar: true,
-    answerCount: 5,
-    createAt: "2月2日 12:00",
-  },
-  {
-    _id: "q2",
-    title: "问卷2",
-    isPublished: true,
-    isStar: false,
-    answerCount: 6,
-    createAt: "2月2日 12:00",
-  },
-  {
-    _id: "q3",
-    title: "问卷3",
-    isPublished: true,
-    isStar: false,
-    answerCount: 7,
-    createAt: "2月3日 12:00",
-  },
-  {
-    _id: "q4",
-    title: "问卷4",
-    isPublished: false,
-    isStar: false,
-    answerCount: 8,
-    createAt: "2月8日 12:00",
-  },
-  {
-    _id: "q5",
-    title: "问卷5",
-    isPublished: false,
-    isStar: true,
-    answerCount: 9,
-    createAt: "2月9日 12:00",
-  },
-  {
-    _id: "q6",
-    title: "问卷6",
-    isPublished: true,
-    isStar: true,
-    answerCount: 2,
-    createAt: "2月2日 12:00",
-  },
-];
+import ListPage from "../../components/ListPage";
+
 // rawQuestionList = []
 const List: FC = () => {
   //   const [questionList, setQuestionList] = useState(rawQuestionList);
@@ -63,23 +15,54 @@ const List: FC = () => {
   //   const [total, setTotal] = useState([]);
   // const [list,setList] = useState([]);
   // const [searchParams, setSearchParams] = useSearchParams();
-//   const params = useParams();
-//   const { loading, data = {} } = useRequest(getQuestionServiceList, {
-//     onSuccess: (data) => {
-//       //   console.log("onSuccess", data);
-//       //   setQuestionList(data.list);
-//       //   setTotal(data.total);
-//     },
-//   });
-//   const { list: questionList = [], total = 0 } = data;
-  const {  loading, data, error } = useLoadQuestionListData();
-  const {list:questionList=[],total} = data || {};
-  useTitle("问卷列表");
+  //   const params = useParams();
+  //   const { loading, data = {} } = useRequest(getQuestionServiceList, {
+  //     onSuccess: (data) => {
+  //       //   console.log("onSuccess", data);
+  //       //   setQuestionList(data.list);
+  //       //   setTotal(data.total);
+  //     },
+  //   });
+  //   const { list: questionList = [], total = 0 } = data;
+  //   const {  loading, data, error } = useLoadQuestionListData();
+  //   const {list:questionList=[],total} = data || {};
+
+  const [list, setList] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const [total, setTotal] = useState(0);
+  const haveMore = total > list.length; // 是否还有更多数据
+  const [searchParams] = useSearchParams(); // 有keyword
+  useTitle("我的问卷");
   // console.log('keyWord', searchParams);
   //   console.log("params", params);
   const deleteQuestion = (id: string) => {
     console.log("deleteQuestion", id);
   };
+  //   触发加载
+
+  const { run: tryLoadMore } = useDebounceFn(
+    () => {
+      console.log("tryLoadMore");
+    },
+    {
+      wait: 500,
+    }
+  );
+  //当页面加载或者url参数keyword发生变化的时候 重新加载
+  useEffect(() => {
+    tryLoadMore();
+  }, [searchParams]);
+
+  //   页面滚动时 触发
+  useEffect(() => {
+    console.log("开始设置滚动监听", window);
+    window.addEventListener("scroll", tryLoadMore, true);
+    return () => {
+      window.removeEventListener("scroll", tryLoadMore, true);
+    };
+  }, [searchParams]); // 添加空依赖数组，确保只在组件挂载时执行一次
   return (
     <>
       {/* <div className={styles["header"]}>
@@ -92,15 +75,15 @@ const List: FC = () => {
         <div className=" pt-[10px] pb-[10px]">
           <div className="flex justify-center">
             <div className="flex-1">
-              <h3>我的问卷{total}</h3>
+              <h3>我的问卷</h3>
             </div>
             <div className="flex-1 text-right">
               <ListSearch></ListSearch>
             </div>
           </div>
-          <div className="mb-10">
-            {questionList.length > 0 ? (
-              questionList.map((item) => {
+          <div className="mb-10 h-[2000px]">
+            {list.length > 0 ? (
+              list.map((item) => {
                 const { _id } = item;
                 return (
                   <QuestionCard
@@ -115,7 +98,10 @@ const List: FC = () => {
               <Empty></Empty>
             )}
           </div>
-          <div className="mb-10 text-center">loadMore ... 上滑加载更多</div>
+          <div className="mb-10 text-center">
+            loadMore... 上划加载更多
+            {/* <ListPage  total={total}></ListPage> */}
+          </div>
         </div>
       </div>
     </>

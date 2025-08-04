@@ -5,6 +5,8 @@ type SearchOption = {
     isPublished: boolean
     isStar: boolean
     isDelete:boolean
+    page:number,
+    pageSize:number
     // pageNum
     // pageSize
     // isStar
