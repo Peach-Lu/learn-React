@@ -32,35 +32,59 @@ module.exports = [
       };
     },
   },
-   {
+  {
     // 获取问卷
     url: "/api/question",
     method: "get",
 
     response: (ctx) => {
-        console.log("res", ctx.originalUrl);
-       const isStar  =  ctx.originalUrl.includes("isStar=true");
-       const isDelete  =  ctx.originalUrl.includes("isDelete=true");
-       const {query={}} = ctx;
-       console.log('query',query);
-       const page = parseInt(query.page) || 1;
-       const pageSize = parseInt(query.pageSize) || 10;
-       const opt = {
+      console.log("res", ctx.originalUrl);
+      const isStar = ctx.originalUrl.includes("isStar=true");
+      const isDelete = ctx.originalUrl.includes("isDelete=true");
+      const { query = {} } = ctx;
+      console.log('query', query);
+      const page = parseInt(query.page) || 1;
+      const pageSize = parseInt(query.pageSize) || 10;
+      const opt = {
         page,
         isStar: isStar ? true : false,
         isDelete: isDelete ? true : false,
         pageSize
-       }
-        // console.log("res", res);
+      }
+      // console.log("res", res);
       return {
         erron: 0,
         data: {
-          list:getQuestionList(opt), // 问卷列表
-          total:100, // 总数
+          list: getQuestionList(opt), // 问卷列表
+          total: 25, // 总数
           page, // 当前页码
           pageSize, // 每页条数
         },
       };
     },
   },
+  {
+    // 更新问卷
+    url: "/api/question/:id",
+    method: "patch",
+    response (ctx) {
+      console.log('ct------------', ctx.req)
+      return {
+        erron: 0,
+      };
+    }
+  },
+  {
+    // 复制问卷
+    url: "/api/question/duplicate/:id",
+    method: "post",
+    response () {
+      return {
+        erron: 0,
+        data: {
+          id: Random.id(),
+        },
+      };
+    },
+  }
 ];

@@ -1,34 +1,34 @@
-import React, { FC } from "react";
-import QuestionCard from "../../components/QuestionCard";
-import ListSearch from "../../components/ListSearch";
-import { useSearchParams, useParams } from "react-router-dom";
-import { useTitle } from "ahooks";
-import { Empty } from "antd";
-import useLoadQuestionListData from "@/hook/useLoadQuestionListData";
-import ListPage from "../../components/ListPage";
+import React, { FC } from "react"
+import QuestionCard from "../../components/QuestionCard"
+import ListSearch from "../../components/ListSearch"
+import { useSearchParams, useParams } from "react-router-dom"
+import { useTitle } from "ahooks"
+import { Empty } from "antd"
+import useLoadQuestionListData from "@/hook/useLoadQuestionListData"
+import ListPage from "../../components/ListPage"
 
 // rawQuestionList = []
 const Start: FC = () => {
-  // const [searchParams, setSearchParams] = useSearchParams();
-  const params = useParams();
-  useTitle("星标问卷");
-  // console.log('keyWord', searchParams);
-  console.log("params", params);
+  const [searchParams, setSearchParams] = useSearchParams()
+  const params = useParams()
+  useTitle("星标问卷")
+  console.log("keyWord", searchParams)
+  console.log("params", params)
 
   const { loading, data, error } = useLoadQuestionListData({
-    isStar: true,
-  });
+    isStar: true
+  })
   const {
     list: rawQuestionList = [],
     total = 0,
     page = 1,
-    pageSize = 10,
-  } = data || {};
+    pageSize = 10
+  } = data || {}
   //   const [questionList, setQuestionList] = useState(rawQuestionList);
   const deleteQuestion = (id: string) => {
-    console.log("deleteQuestion", id);
+    console.log("deleteQuestion", id)
     // setQuestionList(questionList.filter((item) => item.id !== id));
-  };
+  }
 
   return (
     <>
@@ -53,8 +53,8 @@ const Start: FC = () => {
               <Empty description="暂无数据"></Empty>
             )}
             {rawQuestionList.length > 0
-              ? rawQuestionList.map((item) => {
-                  const { _id } = item;
+              ? rawQuestionList.map(item => {
+                  const { _id } = item
                   return (
                     <QuestionCard
                       id={_id}
@@ -62,16 +62,20 @@ const Start: FC = () => {
                       {...item}
                       deleteQuestion={deleteQuestion}
                     />
-                  );
+                  )
                 })
               : "加载中。。。"}
           </div>
           <div className="mb-10 text-center">
-            <ListPage  current={page} total={total} defaultPageSize={pageSize}></ListPage>
+            <ListPage
+              current={page}
+              total={total}
+              defaultPageSize={pageSize}
+            ></ListPage>
           </div>
         </div>
       </div>
     </>
-  );
-};
-export default Start;
+  )
+}
+export default Start

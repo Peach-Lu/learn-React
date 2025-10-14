@@ -1,8 +1,10 @@
-import React, { FC, useEffect } from "react"
+import React, { FC, useEffect, useState } from "react"
 import classNames from "classnames"
 // import './QuestionCard.css';
 import styles from "./QuestionCard.module.scss"
 import { useNavigate, Link } from "react-router"
+import { updateQuestionService } from "@/request/question"
+import { useRequest } from "ahooks"
 import {
   Button,
   Space,
@@ -47,16 +49,31 @@ const QuestionCard: FC<PropsType> = props => {
     deleteQuestion,
     publishQuestion
   } = props
+  // 修改标星
+  const [isStarState, setIsStarState] = useState(isStar)
   const navigate = useNavigate()
   const confirm: PopconfirmProps["onConfirm"] = e => {
     console.log(e)
     message.success("Click on Yes")
-   
   }
   const cancel: PopconfirmProps["onCancel"] = e => {
     console.log(e)
     message.error("Click on No")
   }
+  const { run: changeStar, loading: changeStrarLoading } = useRequest(
+    async id => {
+      console.log("id------", id)
+      await updateQuestionService(id, { isStar: !isStarState })
+    },
+    {
+      manual: true,
+      onSuccess(result) {
+        console.log("result", result)
+        setIsStarState(!isStarState)
+        message.success("标星成功")
+      }
+    }
+  )
   // const edit = (id: string) => {
   //   // console.log('编辑',id)
   // }
@@ -93,7 +110,9 @@ const QuestionCard: FC<PropsType> = props => {
             to={isPublished ? `/question/stat/${id}` : `/question/edit/${id}`}
           >
             <Space>
-              {isStar && <StarOutlined style={{ color: "red" }}></StarOutlined>}
+              {isStarState && (
+                <StarOutlined style={{ color: "red" }}></StarOutlined>
+              )}
               {title}
             </Space>
           </Link>
@@ -129,7 +148,12 @@ const QuestionCard: FC<PropsType> = props => {
         </div>
         <div className="flex gap-[5px]">
           <Space>
-            <Button icon={<StarOutlined></StarOutlined>} size="small">
+            <Button
+              icon={<StarOutlined></StarOutlined>}
+              size="small"
+              onClick={() => changeStar(id)}
+              disabled={changeStrarLoading}
+            >
               标星
             </Button>
             <Button icon={<CopyOutlined></CopyOutlined>} size="small">
@@ -139,15 +163,12 @@ const QuestionCard: FC<PropsType> = props => {
             <Popconfirm
               title="确认删除该问卷吗？"
               description="删除后无法恢复"
-              onConfirm={()=>deleteQuestion && deleteQuestion(id)}
+              onConfirm={() => deleteQuestion && deleteQuestion(id)}
               onCancel={cancel}
               okText="是"
               cancelText="否"
             >
-              <Button
-                icon={<DeleteOutlined></DeleteOutlined>}
-                size="small"
-              >
+              <Button icon={<DeleteOutlined></DeleteOutlined>} size="small">
                 删除
               </Button>
             </Popconfirm>
