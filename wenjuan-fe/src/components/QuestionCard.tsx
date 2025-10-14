@@ -52,6 +52,7 @@ const QuestionCard: FC<PropsType> = props => {
   // 修改标星
   const [isStarState, setIsStarState] = useState(isStar)
   const navigate = useNavigate()
+
   const confirm: PopconfirmProps["onConfirm"] = e => {
     console.log(e)
     message.success("Click on Yes")
