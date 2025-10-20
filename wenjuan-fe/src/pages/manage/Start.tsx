@@ -1,4 +1,4 @@
-import React, { FC } from "react"
+import { FC } from "react"
 import QuestionCard from "../../components/QuestionCard"
 import ListSearch from "../../components/ListSearch"
 import { useSearchParams, useParams } from "react-router-dom"
@@ -9,13 +9,13 @@ import ListPage from "../../components/ListPage"
 
 // rawQuestionList = []
 const Start: FC = () => {
-  const [searchParams, setSearchParams] = useSearchParams()
+  const [searchParams] = useSearchParams()
   const params = useParams()
   useTitle("星标问卷")
   console.log("keyWord", searchParams)
   console.log("params", params)
 
-  const { loading, data, error } = useLoadQuestionListData({
+  const { loading, data } = useLoadQuestionListData({
     isStar: true
   })
   const {

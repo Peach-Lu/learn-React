@@ -1,21 +1,21 @@
-import React, { FC, useState, useEffect } from "react";
-import { Outlet, useNavigate, useLocation } from "react-router-dom";
-import styles from "./MainManage.module.scss";
-import { Button, Flex, message } from "antd";
-import { createQuestionService } from "@/request/question";
-import { useRequest } from "ahooks";
+import { FC } from "react"
+import { Outlet, useNavigate, useLocation } from "react-router-dom"
+import styles from "./MainManage.module.scss"
+import { Button, Flex, message } from "antd"
+import { createQuestionService } from "@/request/question"
+import { useRequest } from "ahooks"
 import {
   StarOutlined,
   BarsOutlined,
   PlusOutlined,
-  DeleteOutlined,
-} from "@ant-design/icons";
+  DeleteOutlined
+} from "@ant-design/icons"
 
 const MainManageLayout: FC = ({ children }) => {
-  const navigate = useNavigate();
-  const { pathname } = useLocation();
+  const navigate = useNavigate()
+  const { pathname } = useLocation()
   //   const [loading, setLoading] = useState(false);
-  console.log("location", location);
+  console.log("location", location)
   //   const createQuestion = async () => {
   //     const res = await createQuestionService();
 
@@ -36,16 +36,16 @@ const MainManageLayout: FC = ({ children }) => {
   const {
     loading,
     error,
-    run: handleCreated,
+    run: handleCreated
   } = useRequest(createQuestionService, {
     manual: true,
-    onSuccess: (data: any,params:any) => {
-      const { id } = data;
-      console.log('params',params)
-    //   navigate(`/question/edit/${id}`);
-      message.success("创建问卷成功");
-    },
-  });
+    onSuccess: (data: any, params: any) => {
+      const { id } = data
+      console.log("params", params)
+      //   navigate(`/question/edit/${id}`);
+      message.success("创建问卷成功")
+    }
+  })
   return (
     <>
       <div className={styles.container}>
@@ -100,6 +100,6 @@ const MainManageLayout: FC = ({ children }) => {
     </div>
   </div> */}
     </>
-  );
-};
-export default MainManageLayout;
+  )
+}
+export default MainManageLayout

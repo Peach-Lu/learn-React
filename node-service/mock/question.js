@@ -1,6 +1,7 @@
 const Mock = require("mockjs");
 const { Random } = Mock;
 const getQuestionList = require("./data/getQuestionList");
+const { url } = require("koa-router");
 module.exports = [
   {
     // 获取单个问卷
@@ -86,5 +87,15 @@ module.exports = [
         },
       };
     },
+  },
+  {
+    // 批量彻底删除
+    url: "/api/question",
+    method: 'delete',
+    response () {
+      return {
+        erron: 0,
+      }
+    }
   }
 ];

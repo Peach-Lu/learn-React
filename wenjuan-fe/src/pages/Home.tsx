@@ -1,28 +1,28 @@
-import React, { FC, useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import { Divider, Typography } from "antd";
-import { Button } from "antd";
-import { MANAGE_PATHNAME } from "../router";
-import http from "../request/http";
+import React, { FC, useState, useEffect } from "react"
+import { useNavigate, Link } from "react-router-dom"
+import { Divider, Typography } from "antd"
+import { Button } from "antd"
+import { MANAGE_PATHNAME } from "../router"
+import http from "../request/http"
 
-import "../_mock/index";
-import axios from "axios";
-const { Title, Paragraph } = Typography;
+import "../_mock/index"
+import axios from "axios"
+const { Title, Paragraph } = Typography
 const Home: FC = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   // React 开发环境下会调用两次
   useEffect(() => {
-    console.log("home mounted");
+    console.log("home mounted")
     // fetch("/api/test")
     //   .then((res) => res.json())
     //   .then((data) => {
     //     console.log(data);
     //   });
     // mockjs 只能劫持xmlhttprequest fetch无法劫持
-    http.post('/api/question').then((res) => {
-      console.log(res.data);
-    });
-  });
+    // http.post('/api/question').then((res) => {
+    //   console.log(res.data);
+    // });
+  })
   // function clickHandler(){
   //   console.log('click')
   //   // navigate('/login')
@@ -41,7 +41,7 @@ const Home: FC = () => {
     <>
       <div
         style={{
-          background: "linear-gradient(to right, #4facfe 0%, #00f2fe 100%)",
+          background: "linear-gradient(to right, #4facfe 0%, #00f2fe 100%)"
         }}
         className="w-full h-full flex flex-col items-center justify-center"
       >
@@ -62,6 +62,6 @@ const Home: FC = () => {
         </div>
       </div>
     </>
-  );
-};
-export default Home;
+  )
+}
+export default Home

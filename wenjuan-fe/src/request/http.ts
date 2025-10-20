@@ -1,5 +1,6 @@
 import axios from "axios"
 import { message } from "antd"
+import { getToken } from "@/utils/user-token"
 
 // 全局 loading 相关（纯 JS 方案）
 let loadingCount = 0
@@ -43,13 +44,17 @@ const instance = axios.create({
 
 // 添加请求拦截器
 instance.interceptors.request.use(
-  function (config) {
+  function (config: any) {
+    config.headers = {
+      ...config.headers,
+      Authorization: `Bearer ${getToken()}`
+    }
     // 在发送请求之前做些什么
     loadingCount++
     if (loadingCount === 1) {
       showLoading()
     }
-    console.log("loadingCount", loadingCount)
+    // console.log("loadingCount", loadingCount)
     return config
   },
   function (error) {
@@ -71,11 +76,11 @@ instance.interceptors.response.use(
       hideLoading()
     }
     // 对响应数据做点什么
-    console.log("response", response)
+    // console.log("response", response)
     const resData = (response.data || {}) as ResType
     const { erron, data, msg } = resData
-    console.log("resData", resData)
-    console.log("erron", erron)
+    // console.log("resData", resData)
+    // console.log("erron", erron)
     if (erron !== 0) {
       if (msg) {
         message.error(msg)
@@ -84,8 +89,7 @@ instance.interceptors.response.use(
       //   return Promise.reject(new Error(msg || "请求失败"));
       return new Error(msg || "请求失败")
     }
-    console.log("loadingCount", loadingCount)
-
+    // console.log("loadingCount", loadingCount)
     return data as ResDataType | undefined
   },
   function (error) {

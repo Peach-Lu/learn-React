@@ -1,9 +1,9 @@
-import React, { FC, useEffect, useState } from "react"
+import { FC, useState } from "react"
 import classNames from "classnames"
 // import './QuestionCard.css';
 import styles from "./QuestionCard.module.scss"
 import { useNavigate, Link } from "react-router"
-import { updateQuestionService } from "@/request/question"
+import { updateQuestionService, copyQuestionService } from "@/request/question"
 import { useRequest } from "ahooks"
 import {
   Button,
@@ -45,22 +45,62 @@ const QuestionCard: FC<PropsType> = props => {
     title,
     isPublished,
     isStar,
-    createAt,
-    deleteQuestion,
-    publishQuestion
+    createAt
+    // deleteQuestion
+    // publishQuestion
   } = props
   // 修改标星
   const [isStarState, setIsStarState] = useState(isStar)
   const navigate = useNavigate()
 
-  const confirm: PopconfirmProps["onConfirm"] = e => {
-    console.log(e)
-    message.success("Click on Yes")
-  }
+  // const confirm: PopconfirmProps["onConfirm"] = e => {
+  //   console.log(e)
+  //   message.success("Click on Yes")
+  // }
+
+  // function duplicate(id: string) {
+  //   message.success("执行复制")
+  // }
+
+  // 复制问卷
+  const { loading, run: duplicate } = useRequest(
+    async id => {
+      console.log("id------", id)
+      const data = await copyQuestionService(id, {})
+      return data
+    },
+    {
+      manual: true,
+      onSuccess(result: any) {
+        console.log("result", result)
+        message.success("复制问卷成功")
+        navigate("/question/edit/" + result.id)
+      }
+    }
+  )
+  // 删除问卷
+  const [isDeletedState, setIsDeletedState] = useState(false)
+  console.log("isDeletedState", isDeletedState)
+  const { loading: loadingdel, run: deleteQuestion } = useRequest(
+    async (id, num) => {
+      console.log("id", id)
+      console.log("num", num)
+      const data = await updateQuestionService(id, { isDelete: true })
+      return data
+    },
+    {
+      manual: true,
+      onSuccess(result: any) {
+        message.success("删除问卷成功")
+        setIsDeletedState(true)
+      }
+    }
+  )
   const cancel: PopconfirmProps["onCancel"] = e => {
     console.log(e)
     message.error("Click on No")
   }
+
   const { run: changeStar, loading: changeStrarLoading } = useRequest(
     async id => {
       console.log("id------", id)
@@ -75,6 +115,7 @@ const QuestionCard: FC<PropsType> = props => {
       }
     }
   )
+
   // const edit = (id: string) => {
   //   // console.log('编辑',id)
   // }
@@ -103,6 +144,8 @@ const QuestionCard: FC<PropsType> = props => {
   })
   // console.log("itemClassName", itemClassName)
 
+  // 已经删除的问卷不要渲染卡片了
+  if (isDeletedState) return null
   return (
     <div className={itemClassName} key={id}>
       <div className="mt-[5px] flex justify-between pt-[10px]">
@@ -157,19 +200,35 @@ const QuestionCard: FC<PropsType> = props => {
             >
               标星
             </Button>
-            <Button icon={<CopyOutlined></CopyOutlined>} size="small">
-              复制
-            </Button>
+            <Popconfirm
+              title="确认复制该问卷"
+              onConfirm={() => duplicate && duplicate(id)}
+              onCancel={cancel}
+              okText="确认"
+              cancelText="取消"
+            >
+              <Button
+                disabled={loading}
+                icon={<CopyOutlined></CopyOutlined>}
+                size="small"
+              >
+                复制
+              </Button>
+            </Popconfirm>
 
             <Popconfirm
               title="确认删除该问卷吗？"
               description="删除后无法恢复"
-              onConfirm={() => deleteQuestion && deleteQuestion(id)}
+              onConfirm={() => deleteQuestion && deleteQuestion(id, 1221)}
               onCancel={cancel}
               okText="是"
               cancelText="否"
             >
-              <Button icon={<DeleteOutlined></DeleteOutlined>} size="small">
+              <Button
+                disabled={loadingdel}
+                icon={<DeleteOutlined></DeleteOutlined>}
+                size="small"
+              >
                 删除
               </Button>
             </Popconfirm>

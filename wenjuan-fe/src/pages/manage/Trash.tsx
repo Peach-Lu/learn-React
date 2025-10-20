@@ -1,14 +1,17 @@
-import React, { FC, useState } from "react"
-import QuestionCard from "../../components/QuestionCard"
+import React, { FC, useState, useEffect } from "react"
+// import QuestionCard from "../../components/QuestionCard"
 import ListSearch from "../../components/ListSearch"
-import { useSearchParams, useParams } from "react-router-dom"
-import { useTitle } from "ahooks"
-import { Empty, Table, Tag, Button, Space, Modal } from "antd"
+import { useParams } from "react-router-dom"
+import { useTitle, useRequest } from "ahooks"
+import { Empty, Table, Tag, Button, Space, Modal, message } from "antd"
 import { ExclamationCircleOutlined } from "@ant-design/icons"
 import type { TableColumnsType, TableProps } from "antd"
-import useLoadQuestionListData from "@/hook/useLoadQuestionListData";
+import useLoadQuestionListData from "@/hook/useLoadQuestionListData"
 import ListPage from "../../components/ListPage"
-
+import {
+  updateQuestionService,
+  deleteQuestionService
+} from "../../request/question"
 
 const columns: TableColumnsType = [
   {
@@ -36,14 +39,17 @@ const columns: TableColumnsType = [
 
 const Start: FC = () => {
   // rawQuestionList = []
-  const { loading, data, error } = useLoadQuestionListData({
-    isDelete: true,
-  });
-  const { list: rawQuestionList = [], total = 0 } = data || {};
+  const { data, refresh } = useLoadQuestionListData({
+    isDelete: true
+  })
+  const { list: rawQuestionList = [], total = 0 } = data || {}
   console.log("rawQuestionList", rawQuestionList)
 
   const params = useParams()
   const [selectIds, setSelectIds] = useState<string[]>([])
+  useEffect(() => {
+    console.log("selectIds changed:", selectIds)
+  }, [selectIds])
   const [modal, contextHolder] = Modal.useModal()
   useTitle("回收站")
   console.log("params", params)
@@ -63,35 +69,65 @@ const Start: FC = () => {
     onChange: async (selectedRowKeys: React.Key[]) => {
       console.log(`selectedRowKeys: ${selectedRowKeys}`)
       setSelectIds(selectedRowKeys as string[])
-      setTimeout(() => {
-        console.log("selectIds: ", selectIds) //为什么 =这个打印的是上一次的值，不是最新的
-      }, 0)
     },
     getCheckboxProps: (record: DataType) => ({
       disabled: record.name === "Disabled User", // Column configuration not to be checked
       name: record.name
     })
   }
-  function deleteId() {
-    // setSelectIds(selectIds.filter(item => item !== id))
-  }
+  // 恢复
+  const { loading, run: recover } = useRequest(
+    async () => {
+      console.log("selectIds--------", selectIds)
+      for await (const id of selectIds) {
+        await updateQuestionService(id, { isDelete: false })
+      }
+      // const data = await updateQuestionService({ id })
+      // return data
+    },
+    {
+      manual: true,
+      debounceWait: 500,
+      onSuccess() {
+        message.success("恢复问卷成功")
+        refresh() // 重新加载列表数据
+        setSelectIds([])
+      }
+    }
+  )
+  // 删除
+  const { loading: loadingdel, run: delQuestion } = useRequest(
+    async () => {
+      console.log("删除", selectIds)
+      const data = deleteQuestionService(selectIds)
+      return data
+    },
+    {
+      manual: true,
+      debounceWait: 500,
+      onSuccess() {
+        message.success("批量删除问卷成功")
+        // refresh() // 重新加载列表数据
+        setSelectIds([])
+        console.log("批量删除问卷成功")
+        console.log("selectIds", selectIds)
+      }
+    }
+  )
+  // function deleteId() {
+  //   // setSelectIds(selectIds.filter(item => item !== id))
+  // }
   const TableElem = (
     <>
       <div className="mb-[10px]">
         <Space>
-          <Button
-            disabled={selectIds.length === 0}
-            onClick={() => {
-              console.log("selectIds", selectIds)
-              setSelectIds([])
-            }}
-          >
+          <Button disabled={selectIds.length === 0} onClick={recover}>
             恢复
           </Button>
           <Button
             danger
             disabled={selectIds.length === 0}
-            onClick={() => del()}
+            onClick={() => delQuestion()}
           >
             删除
           </Button>
@@ -122,7 +158,7 @@ const Start: FC = () => {
               <h3>回收站</h3>
             </div>
             <div className="flex-1 text-right">
-                     <ListSearch></ListSearch>
+              <ListSearch></ListSearch>
             </div>
           </div>
           <div className="mb-10">

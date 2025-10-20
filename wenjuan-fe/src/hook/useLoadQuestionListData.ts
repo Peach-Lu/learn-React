@@ -17,9 +17,9 @@ type OptionType = {
   // isStar
 }
 function useLoadQuestionListData(opt: Partial<OptionType> = {}) {
-  const { id = "" } = useParams()
+  // const { id = "" } = useParams()
   const [searchParams] = useSearchParams()
-  const { loading, data, error } = useRequest(
+  const { loading, data, error, refresh } = useRequest(
     async () => {
       const keyWord = searchParams.get(LIST_SEARCH_PARAM_KEY) || ""
       const page = parseInt(searchParams.get(LIST_PAGE_PARAM_KEY) || "1") || 1
@@ -40,6 +40,6 @@ function useLoadQuestionListData(opt: Partial<OptionType> = {}) {
       refreshDeps: [searchParams]
     }
   )
-  return { loading, data, error }
+  return { loading, data, error, refresh }
 }
 export default useLoadQuestionListData
