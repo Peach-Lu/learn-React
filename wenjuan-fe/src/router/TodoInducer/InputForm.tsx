@@ -7,7 +7,7 @@ const InputForm: FC = () => {
   const { state, dispatch } = useContext(TodoContext)
   // const [state, dispatch] = useReducer(reducer, initIalState)
   const [text, SetText] = useState('')
-  function handleChange(e) {
+  function handleChange(e:any) {
     e.preventDefault()
     console.log(e)
     console.log(e.target)

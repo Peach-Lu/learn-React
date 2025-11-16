@@ -18,7 +18,12 @@ import Stat from "../pages/question/Stat"
 import Formik from "../components/formik"
 import ContentDemo from "../ContentDemo/index"
 import TodoList from "./demo/TodoList.tsx"
+import ReduxDemo from "./reduxDemo/index.tsx"
 const router = createBrowserRouter([
+   {
+    path:'/reduxDemo',
+    element:<ReduxDemo />,
+  },
   {
     path:'/TodoInducer',
     element:<TodoInducer />,
