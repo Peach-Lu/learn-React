@@ -1,24 +1,39 @@
-import React from "react";
-import { createBrowserRouter } from "react-router-dom";
+import React from "react"
+import { createBrowserRouter } from "react-router-dom"
 
-import MainLayout from "../layouts/MainLayout";
-import MainManageLayout from "../layouts/MainManageLayout";
-import QuestionLayout from "../layouts/QuestionLayout";
-import Home from "../pages/Home";
-import Demo from "../pages/Demo";
-import Login from "../pages/Login";
-import Register from "../pages/Register";
-import NotFound from "../pages/NotFound";
-import List from "../pages/manage/List";
-import Trash from "../pages/manage/Trash";
-import Start from "../pages/manage/Start";
-import Edit from "../pages/question/Edit";
-import Stat from "../pages/question/Stat";
-import Formik from "../components/formik";
+import MainLayout from "../layouts/MainLayout"
+import MainManageLayout from "../layouts/MainManageLayout"
+import QuestionLayout from "../layouts/QuestionLayout"
+import Home from "../pages/Home"
+import Demo from "../pages/Demo"
+import TodoInducer from "./TodoInducer/index.tsx"
+import Login from "../pages/Login"
+import Register from "../pages/Register"
+import NotFound from "../pages/NotFound"
+import List from "../pages/manage/List"
+import Trash from "../pages/manage/Trash"
+import Start from "../pages/manage/Start"
+import Edit from "../pages/question/Edit"
+import Stat from "../pages/question/Stat"
+import Formik from "../components/formik"
+import ContentDemo from "../ContentDemo/index"
+import TodoList from "./demo/TodoList.tsx"
 const router = createBrowserRouter([
   {
+    path:'/TodoInducer',
+    element:<TodoInducer />,
+  },
+  {
+    path: "/countReducer",
+    element: <TodoList />
+  },
+  {
+    path: "/ThemeContext",
+    element: <ContentDemo />
+  },
+  {
     path: "/formik",
-    element: <Formik />,
+    element: <Formik />
   },
   {
     path: "/",
@@ -26,19 +41,19 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Home />,
+        element: <Home />
       },
       {
         path: "demo",
-        element: <Demo />,
+        element: <Demo />
       },
       {
         path: "login",
-        element: <Login />,
+        element: <Login />
       },
       {
         path: "register",
-        element: <Register />,
+        element: <Register />
       },
       {
         path: "manage",
@@ -46,24 +61,24 @@ const router = createBrowserRouter([
         children: [
           {
             path: "start",
-            element: <Start />,
+            element: <Start />
           },
           {
             path: "list",
-            element: <List />,
+            element: <List />
           },
           {
             path: "trash",
-            element: <Trash />,
-          },
-        ],
+            element: <Trash />
+          }
+        ]
       },
 
       {
         path: "*",
-        element: <NotFound />,
-      },
-    ],
+        element: <NotFound />
+      }
+    ]
   },
   {
     path: "question",
@@ -71,19 +86,19 @@ const router = createBrowserRouter([
     children: [
       {
         path: "edit/:id",
-        element: <Edit />,
+        element: <Edit />
       },
       {
         path: "stat/:id",
-        element: <Stat />,
-      },
-    ],
-  },
-]);
+        element: <Stat />
+      }
+    ]
+  }
+])
 
-export default router;
+export default router
 
-export const LOGIN_PATHNAME = "/login";
-export const REGISTER_PATHNAME = "/register";
-export const HOME_PATHNAME = "/";
-export const MANAGE_PATHNAME = "/manage/list";
+export const LOGIN_PATHNAME = "/login"
+export const REGISTER_PATHNAME = "/register"
+export const HOME_PATHNAME = "/"
+export const MANAGE_PATHNAME = "/manage/list"
