@@ -19,7 +19,12 @@ import Formik from "../components/formik"
 import ContentDemo from "../ContentDemo/index"
 import TodoList from "./demo/TodoList.tsx"
 import ReduxDemo from "./reduxDemo/index.tsx"
+import TodolistDom from "./Todolist.tsx"
 const router = createBrowserRouter([
+  {
+    path:'/todolist',
+    element:<TodolistDom />
+  },
    {
     path:'/reduxDemo',
     element:<ReduxDemo />,
