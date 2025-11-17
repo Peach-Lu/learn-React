@@ -20,7 +20,14 @@ import ContentDemo from "../ContentDemo/index"
 import TodoList from "./demo/TodoList.tsx"
 import ReduxDemo from "./reduxDemo/index.tsx"
 import TodolistDom from "./Todolist.tsx"
+import MobxTodoList from './mobxTodolist/mobxTodoList.tsx'
+// import Mobx from "./mobx.tsx"
 const router = createBrowserRouter([
+  {
+    path:'/Mobx',
+    // element:<Mobx />
+    element:<MobxTodoList />
+  },
   {
     path:'/todolist',
     element:<TodolistDom />
