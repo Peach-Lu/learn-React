@@ -16,6 +16,8 @@ module.exports = [
           username: Random.title(),
           nickname: Random.cname(3),
         }
+        // erron: 500,
+        // msg: '获取用户信息失败'
       }
     }
   },

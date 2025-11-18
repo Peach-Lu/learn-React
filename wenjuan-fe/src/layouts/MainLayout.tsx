@@ -3,6 +3,9 @@ import { Outlet } from "react-router-dom"
 import { Layout } from "antd"
 import Logo from "../components/Logo"
 import UserInfo from "../components/UserInfo"
+import useLoadUserData from "../hook/useLoadUserData"
+import useNavPage from "../hook/useNavPage"
+
 
 const { Header, Footer, Content } = Layout
 const headerStyle: React.CSSProperties = {
@@ -39,6 +42,8 @@ const layoutStyle = {
   // maxWidth: 'calc(100% - 8px)',
 }
 const MainLayout: FC = ({}) => {
+  const {waitingUserData} = useLoadUserData()
+  useNavPage(waitingUserData)
   // const onChange = e => {
   //   console.log("change", e)
   // }
@@ -57,7 +62,7 @@ const MainLayout: FC = ({}) => {
           </div>
         </Header>
         <Content style={contentStyle} className="">
-          <Outlet></Outlet>
+          {!waitingUserData &&  <Outlet></Outlet>}
         </Content>
         <Footer
           style={footerStyle}

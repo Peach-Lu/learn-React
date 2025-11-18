@@ -1,15 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
-import CountReducer from './count'
-import todoListReducer from './todoList'
-import type { TodoItem } from './todoList'
+import userReducer from './userReducer'
+import type { UserStateType } from './userReducer'
 export type StateType = {
-  count: number,
-  todolist: TodoItem[]
+  user: UserStateType
 }
 export default configureStore({
   reducer: {
-    count: CountReducer,
-    todolist: todoListReducer
-    // 扩展其他模块
+    user: userReducer
+    // 分模块
   }
-}) 
+})

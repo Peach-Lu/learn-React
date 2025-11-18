@@ -6,13 +6,18 @@ import { getUserInfoService } from "../request/user"
 import { useRequest } from "ahooks"
 import { UserOutlined } from "@ant-design/icons"
 import { removeToken } from "../utils/user-token"
+import useGetUserInfo from '../hook/userGetUserInfo'
+import { useDispatch } from 'react-redux'
+import { logoutReducer} from '../store/userReducer'
 const UserInfo: FC = () => {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
   // 判断是否已经登录
-  const { data } = useRequest(getUserInfoService)
-  console.log("data---", data)
-  const { username, nikename } = data || {}
+  // const { data } = useRequest(getUserInfoService)
+  // const { username, nikename } = data || {}
+  const { username, nickname } = useGetUserInfo()
   function logout() {
+    dispatch(logoutReducer())
     removeToken()
     message.success("退出登录成功")
     navigate("login")
@@ -21,7 +26,7 @@ const UserInfo: FC = () => {
     <>
       <span style={{ color: "#e8e8e8" }}>
         <UserOutlined />
-        {nikename || username}
+        {nickname || username}
         <Button type="link" onClick={logout}>
           退出
         </Button>
