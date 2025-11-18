@@ -3,28 +3,27 @@ import { FC } from "react"
 // import { getQuestionService } from "@/request/question";
 // import type { ResDataType } from "@/request/http";
 import useLoadingQuestionData from "@/hook/useLoadingQuestionData"
+import styles from './index.module.scss'
 const Edit: FC = () => {
-  //   const { id } = useParams();
-  //   const [ResData, setResData] = useState<ResDataType>({});
-  //   const [loading, setLoading] = useState(false);
-  //   console.log("id", id);
-  //   useEffect(() => {
-  //     async function fn() {
-  //       const ResData = await getQuestionService(id);
-  //       console.log("ResData", ResData);
-  //       setResData(ResData);
-  //       setLoading(false);
-  //     }
-  //     fn();
-  //   }, []);
 
   const { loading, data } = useLoadingQuestionData()
   return (
     <>
-      <div style={{ marginTop: "20vh" }}>
-        <p>Edit</p>
-        {loading ? <p>Loading...</p> : <p>{JSON.stringify(data)}</p>}
+     <div className={styles.container}>
+      <div className="bg-[#fff] h-[40px]"> Header</div>
+      {/* conent */}
+      <div className={styles['content-wrapper']}>
+     <div className={styles['content']}>
+         <div className={styles['left']}>left</div>
+        <div className={`${styles['main']} relative`}>
+          <div className={`${styles['canvas-wrapper']}`}>
+            <div className="h-[900px]">滚动</div>
+          </div>
+        </div>
+        <div className={styles['right']}>right</div>
+     </div>
       </div>
+     </div>
     </>
   )
 }
